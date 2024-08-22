@@ -32,7 +32,20 @@
     </script>
 </head>
 <body>
-    <h1>Weather Data</h1>
+    <h1>Open Meteo Weather Data to MySQL datbase</h1>
+    <br>
+    <form action="{{ url_for('add_record') }}" method="post">
+        <button type="submit">Add Current Weather Data</button>
+    </form>
+    
+    <form action="{{ url_for('start_auto_collect') }}" method="post">
+        <button type="submit">Start Auto Collect Data</button>
+    </form>
+    
+    <form action="{{ url_for('stop_auto_collect') }}" method="post">
+        <button type="submit">Stop Auto Collect Data</button>
+    </form>
+    <br>
     <table id="data-table" border="1">
         <thead>
             <tr>
@@ -52,16 +65,5 @@
         </tbody>
     </table>
     
-    <form action="{{ url_for('add_record') }}" method="post">
-        <button type="submit">Add Current Weather Data</button>
-    </form>
-    
-    <form action="{{ url_for('start_auto_collect') }}" method="post">
-        <button type="submit">Start Auto Collect Data (1 Hour)</button>
-    </form>
-    
-    <form action="{{ url_for('stop_auto_collect') }}" method="post">
-        <button type="submit">Stop Auto Collect</button>
-    </form>
 </body>
 </html>

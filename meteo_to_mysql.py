@@ -1,18 +1,17 @@
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 import requests
 import mysql.connector
-import time
 from time import localtime, strftime, sleep
 import threading
 
 app = Flask(__name__)
 
-# Database connection
+# Database connection - replace with your database credentials
 conn = mysql.connector.connect(
-    host="localhost",  # Replace with your MySQL server host
-    user="root",  # Replace with your MySQL username
-    password="xxxxxxxxx",  # Replace with your MySQL password
-    database="weather_data"  # The database you want to use
+    host="localhost",  
+    user="root",  
+    password="19Peter77+",  
+    database="weather_data" 
 )
 cursor = conn.cursor()
 
@@ -48,12 +47,12 @@ def auto_collect_data():
     
     while collecting_data:
         store_weather_data()
-        sleep(5)  # Wait for 60 seconds before collecting data again
+        sleep(5)  # Wait for 5 seconds before collecting data again
         
         # Stop after one hour
-        elapsed_time = time.mktime(localtime()) - time.mktime(start_time)
-        if elapsed_time >= 3600:
-            collecting_data = False
+        #elapsed_time = time.mktime(localtime()) - time.mktime(start_time)
+        #if elapsed_time >= 3600:
+        #    collecting_data = False
 
 @app.route('/')
 def index():
