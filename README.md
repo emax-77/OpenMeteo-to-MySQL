@@ -1,6 +1,4 @@
-# Collecting some Open Meteo data to MySQL Database
-
-# A simple Python script that collects Open Meteo data and stores it in a MySQL database
+# Simple Python script that collects Open Meteo data and stores it in a MySQL database
 
 ***For more info about Open Meteo API please visit https://open-meteo.com***
 

@@ -30,21 +30,33 @@
             setInterval(fetchData, 5000);  // Fetch data every 5 seconds
         });
     </script>
+    <title>Button Alignment</title>
+    <style>
+        .button-container {
+            display: flex;
+            gap: 10px; /* Adds space between buttons */
+        }
+        .button-container form {
+            margin: 0; /* Remove default form margin */
+        }
+    </style>
 </head>
 <body>
-    <h1>Open Meteo Weather Data to MySQL datbase</h1>
+    <h1 style="text-align: center">Open Meteo Weather Data to MySQL datbase</h1>
     <br>
-    <form action="{{ url_for('add_record') }}" method="post">
-        <button type="submit">Add Current Weather Data</button>
-    </form>
-    
-    <form action="{{ url_for('start_auto_collect') }}" method="post">
-        <button type="submit">Start Auto Collect Data</button>
-    </form>
-    
-    <form action="{{ url_for('stop_auto_collect') }}" method="post">
-        <button type="submit">Stop Auto Collect Data</button>
-    </form>
+    <div class="button-container">
+        <form action="{{ url_for('add_record') }}" method="post">
+            <button type="submit">Add Current Weather Data</button>
+        </form>
+        
+        <form action="{{ url_for('start_auto_collect') }}" method="post">
+            <button type="submit">Start Auto Collect Data</button>
+        </form>
+        
+        <form action="{{ url_for('stop_auto_collect') }}" method="post">
+            <button type="submit">Stop Auto Collect Data</button>
+        </form>
+    </div>
     <br>
     <table id="data-table" border="1">
         <thead>
