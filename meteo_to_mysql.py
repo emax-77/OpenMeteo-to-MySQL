@@ -10,7 +10,7 @@ app = Flask(__name__)
 conn = mysql.connector.connect(
     host="localhost",  
     user="root",  
-    password="19Peter77+",  
+    password="xxxxxxxxxxx",  
     database="weather_data" 
 )
 cursor = conn.cursor()
@@ -23,8 +23,8 @@ def current_time():
 def get_weather_data():
     response = requests.get("https://api.open-meteo.com/v1/forecast",
                             params={
-                                "latitude": 49.322740,
-                                "longitude": 19.551755,
+                                "latitude": 49.33,
+                                "longitude": 19.55,
                                 "current_weather": True
                             })
     return response.json()
@@ -43,16 +43,10 @@ def get_all_records():
 
 def auto_collect_data():
     global collecting_data
-    start_time = localtime()
     
     while collecting_data:
         store_weather_data()
         sleep(5)  # Wait for 5 seconds before collecting data again
-        
-        # Stop after one hour
-        #elapsed_time = time.mktime(localtime()) - time.mktime(start_time)
-        #if elapsed_time >= 3600:
-        #    collecting_data = False
 
 @app.route('/')
 def index():
