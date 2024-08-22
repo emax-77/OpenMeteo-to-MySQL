@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Data</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function fetchData() {
+            $.ajax({
+                url: "{{ url_for('get_data') }}",
+                type: 'GET',
+                success: function(data) {
+                    let tableBody = '';
+                    data.forEach(function(record) {
+                        tableBody += `
+                            <tr>
+                                <td>${record[0]}</td>
+                                <td>${record[1]}</td>
+                                <td>${record[2]}</td>
+                            </tr>`;
+                    });
+                    $('#data-table tbody').html(tableBody);
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            fetchData();  // Fetch data immediately on load
+            setInterval(fetchData, 5000);  // Fetch data every 5 seconds
+        });
+    </script>
+</head>
+<body>
+    <h1>Weather Data</h1>
+    <table id="data-table" border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Log Time</th>
+                <th>Temperature</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in records %}
+            <tr>
+                <td>{{ record[0] }}</td>
+                <td>{{ record[1] }}</td>
+                <td>{{ record[2] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <form action="{{ url_for('add_record') }}" method="post">
+        <button type="submit">Add Current Weather Data</button>
+    </form>
+    
+    <form action="{{ url_for('start_auto_collect') }}" method="post">
+        <button type="submit">Start Auto Collect Data (1 Hour)</button>
+    </form>
+    
+    <form action="{{ url_for('stop_auto_collect') }}" method="post">
+        <button type="submit">Stop Auto Collect</button>
+    </form>
+</body>
+</html>
