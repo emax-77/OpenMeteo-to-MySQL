@@ -9,7 +9,7 @@
 
 ## Setup the MySQL database:
 - download MySQL database from https://dev.mysql.com/downloads/mysql/
-- install MySQL database and run MySQL console
+- install and run MySQL console (MySQL Command Line Client)
 - create a MySQL database "weather_data"
     - CREATE DATABASE weather_data;
 - use the weather_data database:
