@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, request, redirect, url_for
+from flask import Flask, render_template, jsonify, redirect, url_for
 import requests
 import mysql.connector
 from time import localtime, strftime, sleep
@@ -10,7 +10,7 @@ app = Flask(__name__)
 conn = mysql.connector.connect(
     host="localhost",  
     user="root",  
-    password="xxxxxxxxxxx",  
+    password="xxxxxxxxx",  
     database="weather_data" 
 )
 cursor = conn.cursor()
@@ -25,16 +25,20 @@ def get_weather_data():
                             params={
                                 "latitude": 49.33,
                                 "longitude": 19.55,
-                                "current_weather": True
+                                "current": ["temperature_2m", "relative_humidity_2m", "surface_pressure", "wind_speed_10m"]
                             })
     return response.json()
 
 def store_weather_data():
     output = get_weather_data()
-    temperature = output["current_weather"]["temperature"]
+    temperature = output["current"]["temperature_2m"]
+    wind_speed = output["current"]["wind_speed_10m"]
+    surface_pressure = output["current"]["surface_pressure"]
+    relative_humidity= output["current"]["relative_humidity_2m"]
+
     current_time_str = current_time()
-    cursor.execute("INSERT INTO temperature_log (log_time, temperature) VALUES (%s, %s)", 
-                   (current_time_str, temperature))
+    cursor.execute("INSERT INTO temperature_log (log_time, temperature, relative_humidity, surface_pressure, wind_speed) VALUES (%s, %s, %s, %s, %s)", 
+                   (current_time_str, temperature, relative_humidity, surface_pressure, wind_speed))
     conn.commit()
 
 def get_all_records():

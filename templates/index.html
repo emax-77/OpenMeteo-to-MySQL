@@ -18,6 +18,9 @@
                                 <td>${record[0]}</td>
                                 <td>${record[1]}</td>
                                 <td>${record[2]}</td>
+                                <td>${record[3]}</td>
+                                <td>${record[4]}</td>
+                                <td>${record[5]}</td>
                             </tr>`;
                     });
                     $('#data-table tbody').html(tableBody);
@@ -62,7 +65,7 @@
     </style>
 </head>
 <body>
-    <h1 style="text-align: center">Open Meteo Weather Data to MySQL Database</h1>
+    <h1 style="text-align: center">Open-Meteo Weather Data to MySQL Database</h1>
     <p style="text-align: center">in automatic mode, data is collected every 5 seconds</p>
     <div class="button-container">
         <form action="{{ url_for('add_record') }}" method="post">
@@ -82,7 +85,10 @@
             <tr>
                 <th>ID</th>
                 <th>Log Time</th>
-                <th>Temperature</th>
+                <th>Temperature (°C)</th>
+                <th>Humidity (%)</th>
+                <th>Surface Pressure (Pa)</th>
+                <th>Wind Speed (m/s)</th>
             </tr>
         </thead>
         <tbody>
@@ -91,6 +97,9 @@
                 <td>{{ record[0] }}</td>
                 <td>{{ record[1] }}</td>
                 <td>{{ record[2] }}</td>
+                <td>{{ record[3] }}</td>
+                <td>{{ record[4] }}</td>
+                <td>{{ record[5] }}</td>
             </tr>
             {% endfor %}
         </tbody>
