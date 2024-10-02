@@ -3,6 +3,7 @@ import requests
 import mysql.connector
 from time import localtime, strftime, sleep
 import threading
+import json
 
 app = Flask(__name__)
 
@@ -10,7 +11,7 @@ app = Flask(__name__)
 conn = mysql.connector.connect(
     host="localhost",  
     user="root",  
-    password="xxxxxxxxx",  
+    password="xxxxxxxxxxx",  
     database="weather_data" 
 )
 cursor = conn.cursor()
@@ -52,6 +53,29 @@ def auto_collect_data():
         store_weather_data()
         sleep(5)  # Wait for 5 seconds before collecting data again
 
+def export_to_json():
+    cursor.execute("SELECT * FROM temperature_log")
+    rows = cursor.fetchall()
+    
+    # Defining keys for JSON structure
+    data = []
+    for row in rows:
+        data.append({
+            "id": row[0],
+            "log_time": row[1].strftime("%Y-%m-%d %H:%M:%S"),
+            "temperature": row[2],
+            "relative_humidity": row[3],
+            "surface_pressure": row[4],
+            "wind_speed": row[5]
+        })
+
+    # Export to a JSON file
+    with open("weather_data.json", "w") as json_file:
+        json.dump(data, json_file, indent=4)
+    print("Data has been exported to weather_data.json")
+    
+
+
 @app.route('/')
 def index():
     records = get_all_records()
@@ -77,10 +101,16 @@ def stop_auto_collect():
     collecting_data = False
     return redirect(url_for('index'))
 
+@app.route('/export_to_json', methods=['POST'])
+def export_to_json_route():
+    export_to_json()
+    return redirect(url_for('index'))
+
 @app.route('/data')
 def get_data():
     records = get_all_records()
     return jsonify(records)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
