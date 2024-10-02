@@ -7,11 +7,11 @@ import json
 
 app = Flask(__name__)
 
-# Database connection - replace with your database credentials
+# Database connection (replace with your MySQL database credentials)
 conn = mysql.connector.connect(
     host="localhost",  
     user="root",  
-    password="xxxxxxxxxxx",  
+    password="xxxxxxxxxxx",  # Replace with your MySQL password
     database="weather_data" 
 )
 cursor = conn.cursor()
@@ -21,6 +21,7 @@ collecting_data = False
 def current_time():
     return strftime("%Y-%m-%d %H:%M:%S", localtime())
 
+# Collect weather data from the REST API
 def get_weather_data():
     response = requests.get("https://api.open-meteo.com/v1/forecast",
                             params={
@@ -30,6 +31,7 @@ def get_weather_data():
                             })
     return response.json()
 
+# Store weather data in the database
 def store_weather_data():
     output = get_weather_data()
     temperature = output["current"]["temperature_2m"]
@@ -40,7 +42,7 @@ def store_weather_data():
     current_time_str = current_time()
     cursor.execute("INSERT INTO temperature_log (log_time, temperature, relative_humidity, surface_pressure, wind_speed) VALUES (%s, %s, %s, %s, %s)", 
                    (current_time_str, temperature, relative_humidity, surface_pressure, wind_speed))
-    conn.commit()
+    conn.commit() # Commit the transaction => save data to database
 
 def get_all_records():
     cursor.execute("SELECT * FROM temperature_log ORDER BY id DESC")
@@ -48,11 +50,11 @@ def get_all_records():
 
 def auto_collect_data():
     global collecting_data
-    
     while collecting_data:
         store_weather_data()
         sleep(5)  # Wait for 5 seconds before collecting data again
 
+# Export the data to a JSON file
 def export_to_json():
     cursor.execute("SELECT * FROM temperature_log")
     rows = cursor.fetchall()
@@ -69,7 +71,7 @@ def export_to_json():
             "wind_speed": row[5]
         })
 
-    # Export to a JSON file
+    # Save to a JSON file
     with open("weather_data.json", "w") as json_file:
         json.dump(data, json_file, indent=4)
     print("Data has been exported to weather_data.json")
