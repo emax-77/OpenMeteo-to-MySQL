@@ -79,6 +79,9 @@
         <form action="{{ url_for('stop_auto_collect') }}" method="post">
             <button type="submit">Stop Auto Collect Data</button>
         </form>
+        <form action="{{ url_for('export_to_json') }}" method="post">
+            <button type="submit">Export data to Json file</button>
+        </form>
     </div>
     <table id="data-table" border="1">
         <thead>
