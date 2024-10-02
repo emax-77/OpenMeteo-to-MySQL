@@ -1,7 +1,7 @@
 ***For beginners friendly version please check out my simplified Python code: https://github.com/emax-77/OpenMeteo-to-MySQL-PythonOnlyVersion***
-***5 seconds delay between each request in auto-collect-mode is too small to get the relevant data, so I recommend to use a delay of at least 30 seconds or more.***
+***A 5-second delay between each request in auto-collect mode is too small to get the relevant data, so I recommend using a delay of at least 30 seconds or more.***
 
-# Python code for Flask that collects data from the Open-Meteo API, stores it in a MySQL database and export to Json file.
+# Python code for Flask that collects data from the Open-Meteo API, stores it in a MySQL database and exports it to a JSON file.
 
 ## Data for my GPS coordinates, you can change the coordinates in the script to get the weather data for your location.
 
